@@ -8,13 +8,92 @@ provider:
   runtime: nodejs24.x
   architecture: arm64
   region: eu-north-1
-  stage: ${file(./local.yml):stage}
-  profile: ${file(./local.yml):profile}
+  iam:
+    role: ${file(./local.yml):role}
 
 functions:
+
+## Jag delade upp funktionerna för att undvika mergekonflikter eftersom vi alla kommer att göra funktioner.
+
+## Matches - Stina
   hello:
     handler: functions/hello/index.handler
     events:
       - httpApi:
           path: /
           method: get
+
+## Matches - Jimmy
+
+  hello2:
+    handler: functions/hello/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+## Tournaments - Isaak
+
+  hello3:
+    handler: functions/hello/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+## Teams - Pinar
+
+  hello4:
+    handler: functions/hello/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+
+
+resourses:
+  Resources:
+    TournamentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cupify-tournaments
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+    TeamsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cupify-teams
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: tournamentId
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tournamentId
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+
+    MatchesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cupify-matches
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttribureName: tournamentId
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tournamentId
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
