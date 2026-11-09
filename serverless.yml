@@ -16,39 +16,24 @@ functions:
 ## Jag delade upp funktionerna för att undvika mergekonflikter eftersom vi alla kommer att göra funktioner.
 
 ## Matches - Stina
-  hello:
-    handler: functions/hello/index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+  deleteMatch:
+      handler: functions/matches/deleteMatch/index.handler
+      events:
+          - httpApi:
+                path: /tournaments/{id}/matches/{matchId}
+                method: DELETE
 
 ## Matches - Jimmy
 
-  hello2:
-    handler: functions/hello/index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+
 
 ## Tournaments - Isaak
 
-  hello3:
-    handler: functions/hello/index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+
 
 ## Teams - Pinar
 
-  hello4:
-    handler: functions/hello/index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+
 
 
 
