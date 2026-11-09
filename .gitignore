@@ -4,3 +4,4 @@ local.yml
 .env
 .env.*
 .DS_Store
+config.yml

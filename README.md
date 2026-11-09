@@ -20,6 +20,7 @@ Edit `local.yml` with your own Serverless organization, AWS profile, and deploym
 org: your-serverless-org
 stage: your-name
 profile: default
+role: your-iam-role
 ```
 
 `local.yml` is ignored by Git and should not be committed.
