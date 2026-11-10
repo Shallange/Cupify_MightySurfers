@@ -32,7 +32,12 @@ functions:
 
 
 ## Teams - Pinar
-
+  getTeams:
+    handler: functions/teams/getTeams/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams
+          method: GET
 
 
 
