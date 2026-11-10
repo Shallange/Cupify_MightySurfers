@@ -34,3 +34,23 @@ serverless deploy
 ```
 
 Each developer uses their own local configuration.
+
+
+
+## Teams – development and testing
+
+### List teams
+GET /tournaments/{id}/teams
+
+Returns the teams belonging to the specified tournament.
+
+### Verified manually in Insomnia
+- Missing tournament: 404 with an error message.
+- Existing tournament without teams: 200 with [].
+- Existing tournament with teams: 200 with a JSON array of teams.
+- Tournament isolation: each tournament returns only its own teams.
+
+Test tournaments and teams were inserted manually into the developer's
+DynamoDB tables. These tests do not verify the POST endpoints.
+
+The remaining Teams endpoints are still under development.
