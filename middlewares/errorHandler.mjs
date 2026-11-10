@@ -1,4 +1,4 @@
-import { sendResponse } from "../responses/sendResponse.mjs";
+import { sendResponse } from "../responses/index.mjs";
 
 export const errorHandler = () => ({
     onError: async (handler) => {
@@ -10,6 +10,6 @@ export const errorHandler = () => ({
         if (statusCode === 500) console.log(error);
         const meessage = statusCode === 500 ? "Internal server error" : error.message;
         
-        handler.response = sendResponse(statusCode, { message: meessage });
+        handler.response = sendResponse(statusCode, { error : message });
     }
 });
