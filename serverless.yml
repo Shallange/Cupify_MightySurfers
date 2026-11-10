@@ -31,7 +31,8 @@ functions:
 
 
 
-## Teams - Pinar
+
+ ## Teams - Pinar
   getTeams:
     handler: functions/teams/getTeams/index.handler
     events:
@@ -39,7 +40,12 @@ functions:
           path: /tournaments/{id}/teams
           method: GET
 
-
+  getTeam:
+    handler: functions/teams/getTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: GET
 
 
 resources:
