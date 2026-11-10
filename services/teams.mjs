@@ -1,5 +1,5 @@
 import { db } from './db.mjs';
-import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 
 export const getTeamsByTournamentId = async (tournamentId) => {
     const command = new QueryCommand({
@@ -12,4 +12,17 @@ export const getTeamsByTournamentId = async (tournamentId) => {
 
     const { Items } = await db.send(command);
     return Items ?? [];
+};
+
+export const getTeamById = async (tournamentId, teamId) => {
+    const command = new GetCommand({
+        TableName: 'cupify-teams',
+        Key: {
+            tournamentId,
+            id: teamId
+        }
+    });
+
+    const { Item } = await db.send(command);
+    return Item;
 };
