@@ -15,6 +15,6 @@ export const handler = middy(async (event) => {
 
     await deleteMatch(id, matchId);
 
-    return sendResponse(204, { message: 'Match deleted successfully' });
+    return sendResponse(204);
 }).use(tournamentExists())
 .use(errorHandler());
