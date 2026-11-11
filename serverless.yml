@@ -23,6 +23,13 @@ functions:
                 path: /tournaments/{id}/matches/{matchId}
                 method: DELETE
 
+  registerResult:
+      handler: functions/matches/registerResult/index.handler
+      events:
+          - httpApi:
+                path: /tournaments/{id}/matches/{matchId}/result
+                method: PATCH
+
 ## Matches - Jimmy
 
 
