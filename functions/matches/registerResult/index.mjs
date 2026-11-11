@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import { sendResponse } from '../../../responses/index.mjs';
 import { updateMatchResult, getMatchById } from '../../../services/matches.mjs';
 import { tournamentExists } from '../../../middlewares/tournamentExist.mjs';
+import { matchExists } from '../../../middlewares/matchExist.mjs';
 import { errorHandler } from '../../../middlewares/errorHandler.mjs';
 
 export const handler = middy(async (event) => {
@@ -20,12 +21,7 @@ export const handler = middy(async (event) => {
         throw createError(400, 'Scores must be numbers, greater than or equal to 0');
     }
 
-    const match = await getMatchById(id, matchId);
-    if (!match) {
-        throw createError(404, 'Match not found');
-    }
-
-    if (match.status !== 'scheduled') {
+    if (event.match.status !== 'scheduled') {
         throw createError(409, 'Result is already set or match is not in scheduled status');
     }
 
@@ -34,4 +30,5 @@ export const handler = middy(async (event) => {
 })
 .use(httpJsonBodyParser())
 .use(tournamentExists())
+.use(matchExists())
 .use(errorHandler());
