@@ -1,10 +1,17 @@
-export const handler = async (event) => {
-    const tournamentId = event.pathParameters.id;
+import middy from '@middy/core';
+import createError from 'http-errors';
+import { sendResponse } from '../../../responses/index.mjs';
+import { tournamentExists } from '../../../middlewares/tournamentExist.mjs';
+import { errorHandler } from '../../../middlewares/errorHandler.mjs';
+import { getMatchesByTournamentId } from '../../../services/matches.mjs'
 
-    console.log("Tournament:", tournamentId);
+export const handler = middy(async (event)  => {
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify([])
-    };
-};
+    const tournamentId = event.tournament.id;
+
+    const matches = await getMatchesByTournamentId(tournamentId);
+
+    return sendResponse(200, matches);
+})
+.use(tournamentExists())
+.use(errorHandler())
