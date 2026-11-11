@@ -1,5 +1,5 @@
 import { db } from './db.mjs';
-import { QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 export const getTeamsByTournamentId = async (tournamentId) => {
     const command = new QueryCommand({
@@ -25,4 +25,13 @@ export const getTeamById = async (tournamentId, teamId) => {
 
     const { Item } = await db.send(command);
     return Item;
+};
+
+export const createTeam = async (team) => {
+    await db.send(new PutCommand({
+        TableName: 'cupify-teams',
+        Item: team
+    }));
+
+    return team;
 };

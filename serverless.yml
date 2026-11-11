@@ -65,6 +65,12 @@ functions:
           path: /tournaments/{id}/teams/{teamId}
           method: GET
 
+  createTeam:
+    handler: functions/teams/createTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams
+          method: POST
 
 resources:
   Resources:
