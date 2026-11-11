@@ -71,6 +71,14 @@ functions:
       - httpApi:
           path: /tournaments/{id}/teams
           method: POST
+ 
+
+  updateTeam:
+    handler: functions/teams/updateTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: PUT
 
 resources:
   Resources:

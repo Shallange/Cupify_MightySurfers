@@ -1,5 +1,5 @@
 import { db } from './db.mjs';
-import { QueryCommand, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand, GetCommand, PutCommand, UpdateCommand  } from '@aws-sdk/lib-dynamodb';
 
 export const getTeamsByTournamentId = async (tournamentId) => {
     const command = new QueryCommand({
@@ -34,4 +34,24 @@ export const createTeam = async (team) => {
     }));
 
     return team;
+};
+
+export const updateTeam = async (tournamentId, teamId, fields) => {
+    const { Attributes } = await db.send(new UpdateCommand({
+        TableName: 'cupify-teams',
+        Key: { tournamentId, id: teamId },
+        UpdateExpression: 'SET #name = :name, city = :city, coach = :coach',
+        ExpressionAttributeNames: {
+            '#name': 'name'
+        },
+        ExpressionAttributeValues: {
+            ':name': fields.name,
+            ':city': fields.city,
+            ':coach': fields.coach
+        },
+        ConditionExpression: 'attribute_exists(id)',
+        ReturnValues: 'ALL_NEW'
+    }));
+
+    return Attributes;
 };
