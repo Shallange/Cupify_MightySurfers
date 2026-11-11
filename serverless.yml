@@ -31,6 +31,13 @@ functions:
                 method: PATCH
 
 ## Matches - Jimmy
+  createMatch:
+    handler: functions/matches/createMatch/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/matches
+          method: POST
+
   getMatch:
     handler: functions/matches/getMatch/index.handler
     events:
