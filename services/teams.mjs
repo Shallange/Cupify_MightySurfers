@@ -1,5 +1,5 @@
 import { db } from './db.mjs';
-import { QueryCommand, GetCommand, PutCommand, UpdateCommand  } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand, GetCommand, PutCommand, UpdateCommand, DeleteCommand  } from '@aws-sdk/lib-dynamodb';
 
 export const getTeamsByTournamentId = async (tournamentId) => {
     const command = new QueryCommand({
@@ -54,4 +54,34 @@ export const updateTeam = async (tournamentId, teamId, fields) => {
     }));
 
     return Attributes;
+};
+
+export const isTeamUsedInMatches = async (tournamentId, teamId) => {
+    let lastKey;
+
+    do {
+        const result = await db.send(new QueryCommand({
+            TableName: 'cupify-matches',
+            KeyConditionExpression: 'tournamentId = :tournamentId',
+            FilterExpression: 'homeTeamId = :teamId OR awayTeamId = :teamId',
+            ExpressionAttributeValues: {
+                ':tournamentId': tournamentId,
+                ':teamId': teamId
+            },
+            ExclusiveStartKey: lastKey
+        }));
+
+        if (result.Items?.length) return true;
+        lastKey = result.LastEvaluatedKey;
+    } while (lastKey);
+
+    return false;
+};
+
+export const deleteTeam = async (tournamentId, teamId) => {
+    await db.send(new DeleteCommand({
+        TableName: 'cupify-teams',
+        Key: { tournamentId, id: teamId },
+        ConditionExpression: 'attribute_exists(id)'
+    }));
 };

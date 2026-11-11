@@ -79,6 +79,13 @@ functions:
       - httpApi:
           path: /tournaments/{id}/teams/{teamId}
           method: PUT
+   
+  deleteTeam:
+    handler: functions/teams/deleteTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: DELETE
 
 resources:
   Resources:
