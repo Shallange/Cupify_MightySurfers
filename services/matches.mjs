@@ -1,5 +1,5 @@
 import { db } from './db.mjs';
-import { DeleteCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import createError from 'http-errors';
 
 // deleteMatch
@@ -33,5 +33,26 @@ export const getMatchById = async (tournamentId, matchId) => {
     } catch (error) {
         console.log('Error getting match by ID:', error);
         throw createError(500, error.message || 'Error getting match by ID');
+    }
+}
+
+// getMatchesByTournamentId
+export const getMatchesByTournamentId = async (tournamentId) => {
+    try {
+        const command = new QueryCommand({
+            TableName: 'cupify-matches',
+            KeyConditionExpression: 'tournamentId = :tournamentId',
+            ExpressionAttributeValues: {
+                ':tournamentId': tournamentId
+            }
+        });
+
+        const { Items } = await db.send(command);
+
+        return Items ?? [];
+
+    } catch (error){
+        console.log('Error getting matches by tournament ID:', error);
+        throw createError(500, 'Error getting matches');
     }
 }
