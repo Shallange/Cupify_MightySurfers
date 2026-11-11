@@ -1,5 +1,4 @@
 import middy from '@middy/core';
-import createError from 'http-errors';
 import { sendResponse } from '../../../responses/index.mjs';
 import { tournamentExists } from '../../../middlewares/tournamentExist.mjs';
 import { errorHandler } from '../../../middlewares/errorHandler.mjs';
