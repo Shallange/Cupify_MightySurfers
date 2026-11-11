@@ -30,6 +30,13 @@ functions:
       - httpApi:
           path: /tournaments/{id}/matches
           method: POST
+  
+  updateMatch:
+    handler: functions/matches/updateMatch/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/matches/{matchId}
+          method: PUT
 
   getMatch:
     handler: functions/matches/getMatch/index.handler
