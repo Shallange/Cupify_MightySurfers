@@ -5,3 +5,4 @@ local.yml
 .env.*
 .DS_Store
 config.yml
+.vs/
