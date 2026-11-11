@@ -9,7 +9,7 @@ export const handler = middy (async (event) => {
 
 
 
-    
+
 })
 .use(tournamentExists())
 .use(matchExists())

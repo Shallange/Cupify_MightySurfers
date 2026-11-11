@@ -37,7 +37,7 @@ functions:
       - httpApi:
           path: /tournaments/{id}/matches
           method: POST
-  
+
   updateMatch:
     handler: functions/matches/updateMatch/index.handler
     events:
