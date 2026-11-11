@@ -1,7 +1,7 @@
 import middy from '@middy/core';
 import { sendResponse } from '../../../responses/index.mjs';
 import { tournamentExists } from '../../../middlewares/tournamentExist.mjs';
-import { matchExists } from '../../../middlewares/matchExistst.mjs';
+import { matchExists } from '../../../middlewares/matchExists.mjs';
 import { errorHandler } from '../../../middlewares/errorHandler.mjs';
 
 export const handler = middy (async (event) => {
