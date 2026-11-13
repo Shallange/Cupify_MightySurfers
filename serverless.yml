@@ -63,11 +63,43 @@ functions:
 
 
 
-## Teams - Pinar
 
+ ## Teams - Pinar
+  getTeams:
+    handler: functions/teams/getTeams/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams
+          method: GET
 
+  getTeam:
+    handler: functions/teams/getTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: GET
 
+  createTeam:
+    handler: functions/teams/createTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams
+          method: POST
+ 
 
+  updateTeam:
+    handler: functions/teams/updateTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: PUT
+   
+  deleteTeam:
+    handler: functions/teams/deleteTeam/index.handler
+    events:
+      - httpApi:
+          path: /tournaments/{id}/teams/{teamId}
+          method: DELETE
 
 resources:
   Resources:
