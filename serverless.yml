@@ -11,6 +11,14 @@ provider:
   iam:
     role: ${file(./local.yml):role}
 
+    package:
+  patterns:
+    - '!.vs/**'
+    - '!.git/**'
+    - '!README.md'
+    - '!local.yml'
+
+
 functions:
 
 ## Jag delade upp funktionerna för att undvika mergekonflikter eftersom vi alla kommer att göra funktioner.
