@@ -11,7 +11,7 @@ provider:
   iam:
     role: ${file(./local.yml):role}
 
-    package:
+package:
   patterns:
     - '!.vs/**'
     - '!.git/**'
