@@ -131,3 +131,55 @@ export const createMatch = async (
 
   return match;
 };
+
+// updateMatch
+export const updateMatch = async (
+  tournamentId,
+  matchId,
+  homeTeamId,
+  awayTeamId,
+  date
+) => {
+  try {
+    const command = new UpdateCommand({
+      TableName: "cupify-matches",
+
+      Key: {
+        tournamentId,
+        id: matchId,
+      },
+
+      UpdateExpression:
+        "SET homeTeamId = :homeTeamId, awayTeamId = :awayTeamId, #date = :date",
+
+      ConditionExpression:
+        "attribute_exists(id) AND #status = :scheduled",
+
+      ExpressionAttributeNames: {
+        "#status": "status",
+        "#date": "date",
+      },
+
+      ExpressionAttributeValues: {
+        ":homeTeamId": homeTeamId,
+        ":awayTeamId": awayTeamId,
+        ":date": date,
+        ":scheduled": "scheduled",
+      },
+
+      ReturnValues: "ALL_NEW",
+    });
+
+    const { Attributes } = await db.send(command);
+
+    return Attributes;
+
+  } catch (error) {
+    if (error.name === "ConditionalCheckFailedException") {
+      throw createError(409, "Match is no longer scheduled or does not exist");
+    }
+
+    console.log("Error updating match:", error);
+    throw createError(500, "Error updating match");
+  }
+};
