@@ -69,39 +69,40 @@ functions:
 
 ## Tournaments - Isaak
   createTournament:
-      handler: functions/tournaments/index.createTournamentHandler
+      handler: functions/tournaments/createTournament/index.handler
       events:
           - httpApi:
                 path: /tournaments
                 method: POST
 
   getTournaments:
-      handler: functions/tournaments/index.getTournamentsHandler
+      handler: functions/tournaments/getTournaments/index.handler
       events:
           - httpApi:
                 path: /tournaments
                 method: GET
 
   getTournament:
-      handler: functions/tournaments/index.getTournamentHandler
+      handler: functions/tournaments/getTournament/index.handler
       events:
           - httpApi:
                 path: /tournaments/{id}
                 method: GET
 
   updateTournamentStatus:
-      handler: functions/tournaments/index.updateTournamentStatusHandler
+      handler: functions/tournaments/updateTournamentStatus/index.handler
       events:
           - httpApi:
                 path: /tournaments/{id}/status
                 method: PATCH
 
   deleteTournament:
-      handler: functions/tournaments/index.deleteTournamentHandler
+      handler: functions/tournaments/deleteTournament/index.handler
       events:
           - httpApi:
                 path: /tournaments/{id}
                 method: DELETE
+
 
 
 
