@@ -9,9 +9,9 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
 import createError from 'http-errors';
+import validator from 'validator';
 
-// behöver justeras till de värden som står i API-specifikationen.
-export const TOURNAMENT_STATUSES = ['planned', 'ongoing', 'completed'];
+export const TOURNAMENT_STATUSES = ['upcoming', 'ongoing', 'completed'];
 
 const isNonEmptyString = (value) =>
     typeof value === 'string' && value.trim().length > 0;
@@ -37,12 +37,27 @@ export const createTournament = async (input) => {
         throw createError(400, 'sport is required and must be a non-empty string');
     }
 
+    if (!isNonEmptyString(input?.location)) {
+        throw createError(400, 'location is required and must be a non-empty string');
+    }
+    if (
+        !isNonEmptyString(input?.startDate) ||
+        !validator.isISO8601(input.startDate, {
+            strict: true,
+            strictSeparator: true,
+        })
+    ) {
+        throw createError(400, 'startDate is required and must be a valid ISO 8601 date');
+    }
+
     const now = new Date().toISOString();
     const tournament = {
         id: randomUUID(),
         name: input.name.trim(),
         sport: input.sport.trim(),
-        status: 'planned',
+        location: input.location.trim(),
+        startDate: input.startDate,
+        status: 'upcoming',
         createdAt: now,
         updatedAt: now,
     };
