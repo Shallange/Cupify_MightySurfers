@@ -1,3 +1,13 @@
+import middy from "@middy/core";
+import createError from "http-errors";
+import validator from "validator";
+import { sendResponse } from "../../../responses/index.mjs";
+import { tournamentExists } from "../../../middlewares/tournamentExist.mjs";
+import { matchExists } from "../../../middlewares/matchExists.mjs";
+import { errorHandler } from "../../../middlewares/errorHandler.mjs";
+import { getTeamById } from "../../../services/teams.mjs";
+import { updateMatch } from "../../../services/matches.mjs";
+
 export const handler = middy(async (event) => {
   const tournamentId = event.tournament.id;
   const { matchId } = event.pathParameters;
