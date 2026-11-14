@@ -88,17 +88,33 @@ export const updateMatchResult = async (
 // getMatchesByTournamentId
 export const getMatchesByTournamentId = async (tournamentId) => {
   try {
-    const command = new QueryCommand({
+    const params = {
       TableName: "cupify-matches",
       KeyConditionExpression: "tournamentId = :tournamentId",
       ExpressionAttributeValues: {
         ":tournamentId": tournamentId,
       },
-    });
+    };
 
-    const { Items } = await db.send(command);
+    const matches = [];
+    let lastKey;
 
-    return Items ?? [];
+    // DynamoDB Query can return multiple pages of results.
+    do {
+        const { Items, LastEvaluatedKey } = await db.send(
+            new QueryCommand({
+                ...params,
+                ...(lastKey && { ExclusiveStartKey: lastKey }),
+            })
+        );
+
+        matches.push(...(Items ?? []));
+        // Continue from the last evaluated key until all pages are retrieved.
+        lastKey = LastEvaluatedKey;
+    } while (lastKey);
+
+    return matches;
+
   } catch (error) {
     console.log("Error getting matches by tournament ID:", error);
     throw createError(500, "Error getting matches");
