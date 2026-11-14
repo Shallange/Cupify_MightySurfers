@@ -81,3 +81,4 @@ table names.
 ## Resource documentation
 
 - [Teams endpoints and tests](functions/teams/README.md)
+- [Matches endpoints and tests](functions/matches/README.md)
